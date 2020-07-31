@@ -16,7 +16,10 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
     void button_clicked(QPushButton *);
+    void something();
+private:
     void keyPressEvent(QKeyEvent *);
+    void moveEvent(QMoveEvent *);
 
 private slots:
     void on_north_west_button_clicked();

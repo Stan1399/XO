@@ -4,12 +4,24 @@
 #include "mylabel.h"
 #include <QKeyEvent>
 
+void disc()
+{
+
+}
+
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
     ui->current_player->setText("Ход первого игрока");
+    connect(ui->east_button, &QPushButton::clicked, this, &MainWindow::something);
+    connect(ui->west_button, &QPushButton::clicked, this, &MainWindow::on_south_button_clicked);
+}
+
+void MainWindow::something()
+{
+    ui->label->setText("Button pushed!");
 }
 
 void MainWindow::keyPressEvent(QKeyEvent *event) {
@@ -17,6 +29,19 @@ void MainWindow::keyPressEvent(QKeyEvent *event) {
    if (event->key() == Qt::Key_Escape) {
        ui->label->setText("Esc pressed");
    }
+   else if (event->key() == Qt::Key_A) {
+       ui->label->setText("Enter pressed");
+   }
+}
+
+void MainWindow::moveEvent(QMoveEvent *e) {
+
+  int x = e->pos().x();
+  int y = e->pos().y();
+
+  QString text = QString::number(x) + "," + QString::number(y);
+
+  setWindowTitle(text);
 }
 
 MainWindow::~MainWindow()
@@ -147,6 +172,7 @@ void MainWindow::on_west_button_clicked()
 
 void MainWindow::on_south_button_clicked()
 {
+    disconnect(ui->east_button, &QPushButton::clicked, this, &MainWindow::something);
     button_clicked(ui->south_button);
 }
 
